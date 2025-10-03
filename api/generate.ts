@@ -63,12 +63,12 @@ export default async function handler(request: Request) {
       }
 
       case 'editImage': {
-        const { image, prompt, model = 'gemini-2.5-flash-image' } = payload;
+        const { image, prompt } = payload;
         const imagePart = { inlineData: image };
         const textPart = { text: prompt };
 
         const response = await ai.models.generateContent({
-            model: model,
+            model: 'gemini-2.5-flash-image', // Hardcoded to stable model
             contents: { parts: [imagePart, textPart] },
             config: { responseModalities: [Modality.IMAGE, Modality.TEXT] }
         });
@@ -91,8 +91,10 @@ export default async function handler(request: Request) {
 
   } catch (error: any) {
      console.error(error);
-     return new Response(JSON.stringify({ error: error.message || 'An unknown error occurred on the server.' }), {
-        status: 500,
+     // Pass the full error from Gemini API back to the client for better debugging
+     const errorBody = error.cause ? JSON.stringify(error.cause) : JSON.stringify({ error: error.message || 'An unknown error occurred on the server.' });
+     return new Response(errorBody, {
+        status: error.cause?.error?.code || 500,
         headers: { 'Content-Type': 'application/json' },
      });
   }
