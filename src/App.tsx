@@ -224,7 +224,7 @@ const App = () => {
             
             resultImageUrl = await runAI(
                 'editImage',
-                { image: { data, mimeType }, prompt: fullPrompt },
+                { image: { data, mimeType }, prompt: fullPrompt, model: 'gemini-2.5-flash-image' },
                 setIsLoading,
                 'Applying decal to your helmet...',
                 'Single View Edit'
@@ -239,7 +239,7 @@ const App = () => {
 
             resultImageUrl = await runAI(
                 'editImage',
-                { image: { data, mimeType }, prompt: fullPrompt },
+                { image: { data, mimeType }, prompt: fullPrompt, model: 'gemini-2.5-flash-image' },
                 setIsLoading,
                 'Generating new helmet...',
                 'Single View Generation'
@@ -288,7 +288,7 @@ ${originalPrompt}
 
         const compositeImageUrl = await runAI(
             'editImage',
-            { image: { data, mimeType }, prompt },
+            { image: { data, mimeType }, prompt, model: 'gemini-2.5-flash-image' },
             setIsGeneratingFullView,
             'Generating Full View...',
             'Full View Generation'
@@ -328,7 +328,7 @@ ${originalPrompt}
 
         const styledImageUrl = await runAI(
             'editImage',
-            { image: { data, mimeType }, prompt },
+            { image: { data, mimeType }, prompt, model: 'gemini-2.5-flash-image' },
             setIsStyling,
             `Applying ${styleId} style...`,
             'Style Pack Generation'
